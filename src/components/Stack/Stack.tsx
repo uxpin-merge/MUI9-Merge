@@ -31,5 +31,13 @@ export interface StackProps {
  * @uxpindescription Manages layout of immediate children along the vertical or horizontal axis, with optional spacing and dividers.
  */
 export default function Stack(props: StackProps) {
-  return <MuiStack {...props}>{props.children}</MuiStack>;
+  // MUI v9 removed system props from Stack — alignItems/justifyContent passed
+  // as top-level props leak into the DOM as attributes and do nothing, so map
+  // them into sx (explicit sx values still win via the later spread)
+  const { alignItems, justifyContent, sx, ...other } = props;
+  return (
+    <MuiStack {...other} sx={{ alignItems, justifyContent, ...((sx as object) || {}) }}>
+      {props.children}
+    </MuiStack>
+  );
 }
