@@ -2,6 +2,7 @@ import { createTheme } from '@mui/material/styles';
 import { lightPalette, darkPalette } from './palette';
 import { typography } from './typography';
 import { components } from './components';
+import tokens from './tokens.json';
 
 /**
  * THE theme. Created exactly once, at module scope. There is deliberately no
@@ -19,9 +20,8 @@ const theme = createTheme({
     dark: { palette: darkPalette },
   },
   typography,
-  shape: {
-    borderRadius: 4,
-  },
+  shape: tokens.shape,
+  spacing: tokens.spacing,
   components,
 });
 

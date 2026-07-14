@@ -31,6 +31,7 @@ const theme = createTheme({
   },
   typography: tokens.typography,
   shape: tokens.shape,
+  spacing: tokens.spacing,
 });
 
 // generateStyleSheets() returns e.g.:
