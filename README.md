@@ -33,6 +33,14 @@ canvas iframe:
 - `--mui-spacing` is the base spacing unit; overriding it rescales the entire library.
 - Component `styleOverrides` (structural changes) are a build-time concern:
   `src/theme/components.ts`.
+- **Breakpoints are NOT CSS variables** — MUI bakes them into media queries at
+  build time. They are defined in `src/theme/tokens.json` and changing them
+  requires rebuilding + re-pushing the library. On the UXPin canvas each
+  component renders in its own iframe, so media queries respond to the
+  component's own size, not the page size.
+- Shadows (`--mui-shadows-0..24`), dark-mode elevation overlays
+  (`--mui-overlays-*`), z-indexes (`--mui-zIndex-*`) and opacity tokens are all
+  plain CSS variables and fully runtime-overridable.
 
 ## Development
 

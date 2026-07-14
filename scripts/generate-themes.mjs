@@ -32,6 +32,7 @@ const theme = createTheme({
   typography: tokens.typography,
   shape: tokens.shape,
   spacing: tokens.spacing,
+  breakpoints: tokens.breakpoints,
 });
 
 // generateStyleSheets() returns e.g.:

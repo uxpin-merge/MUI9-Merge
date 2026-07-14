@@ -22,6 +22,11 @@ const theme = createTheme({
   typography,
   shape: tokens.shape,
   spacing: tokens.spacing,
+  // NOTE: breakpoints are NOT emitted as CSS variables by MUI — they are baked
+  // into media queries at build time. Changing them requires rebuilding and
+  // re-pushing the library; they are kept in tokens.json so every build-time
+  // and runtime token lives in one file.
+  breakpoints: tokens.breakpoints,
   components,
 });
 
