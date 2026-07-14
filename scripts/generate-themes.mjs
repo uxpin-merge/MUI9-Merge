@@ -21,6 +21,19 @@ import { createTheme } from '@mui/material/styles';
 const require = createRequire(import.meta.url);
 const tokens = require('../src/theme/tokens.json');
 
+// per-variant typography metrics resolve through our custom variables — same
+// construction as src/theme/typography.ts (keep in sync)
+const variantStyles = Object.fromEntries(
+  Object.entries(tokens.typographyVariants).map(([variant, style]) => [
+    variant,
+    {
+      fontWeight: `var(--mui-font-weight-${variant}, ${style.fontWeight})`,
+      fontSize: `var(--mui-font-size-${variant}, ${style.fontSize})`,
+      lineHeight: `var(--mui-font-lineHeight-${variant}, ${style.lineHeight})`,
+    },
+  ])
+);
+
 const theme = createTheme({
   cssVariables: {
     colorSchemeSelector: 'class',
@@ -29,7 +42,7 @@ const theme = createTheme({
     light: { palette: tokens.lightPalette },
     dark: { palette: tokens.darkPalette },
   },
-  typography: tokens.typography,
+  typography: { ...tokens.typography, ...variantStyles },
   shape: tokens.shape,
   spacing: tokens.spacing,
   breakpoints: tokens.breakpoints,
@@ -55,13 +68,32 @@ for (const sheet of sheets) {
   }
 }
 
-// The theme defines typography.fontFamily as `var(--mui-font-family, <fallback>)`,
-// so every generated --mui-font-* shorthand points at this single custom variable.
-// Editing it in UXPin's theme editor swaps the font for the whole library at once.
+// MUI's generated `--mui-font-<variant>` shorthands are dead weight in our
+// runtime: components bake typography styles into CSS at createTheme() time
+// and never read those variables back (verified against @mui/material v9
+// sources). Drop them; the working knobs are our custom variables below.
+const DEAD_FONT_SHORTHAND = /^--mui-font-(h[1-6]|subtitle[12]|body[12]|button|caption|overline|inherit)$/;
+for (const vars of [base, light, dark]) {
+  for (const key of Object.keys(vars)) {
+    if (DEAD_FONT_SHORTHAND.test(key)) {
+      delete vars[key];
+    }
+  }
+}
+
+// Our custom, actually-consumed typography variables: the single font-family
+// var (referenced from every baked variant style) + per-variant metrics.
+const typographyVars = { ...tokens.fontFamilyVar };
+for (const [variant, style] of Object.entries(tokens.typographyVariants)) {
+  typographyVars[`--mui-font-weight-${variant}`] = String(style.fontWeight);
+  typographyVars[`--mui-font-size-${variant}`] = String(style.fontSize);
+  typographyVars[`--mui-font-lineHeight-${variant}`] = String(style.lineHeight);
+}
+
 const themes = {
   default: {
-    light: { ...tokens.fontFamilyVar, ...base, ...light },
-    dark: { ...tokens.fontFamilyVar, ...base, ...dark },
+    light: { ...typographyVars, ...base, ...light },
+    dark: { ...typographyVars, ...base, ...dark },
   },
 };
 
