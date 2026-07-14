@@ -1,3 +1,5 @@
+const themes = require('./themes.js');
+
 module.exports = {
   components: {
     categories: [
@@ -175,6 +177,8 @@ module.exports = {
   },
   name: 'MUI9-UXPin-Merge',
   settings: {
+    componentType: 'mui',
+    themes: themes,
     useUXPinProps: true,
     useConvertingToUXPinClassic: true,
     useIcons: { iconMap: 'https://uc.uxpin.com/mui-icons.json', component: 'MaterialIcon' },

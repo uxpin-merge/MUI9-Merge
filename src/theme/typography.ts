@@ -1,5 +1,4 @@
 import type { TypographyVariantsOptions } from '@mui/material/styles';
+import tokens from './tokens.json';
 
-export const typography: TypographyVariantsOptions = {
-  fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-};
+export const typography: TypographyVariantsOptions = tokens.typography;

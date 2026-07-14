@@ -5,7 +5,8 @@
   "description": "MUI v9 components integrated with UXPin Merge, themed via CSS variables",
   "scripts": {
     "start": "uxpin-merge --webpack-config webpack.config.js",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "generate:themes": "node scripts/generate-themes.mjs"
   },
   "dependencies": {
     "@emotion/react": "^11.13.0",
