@@ -19,6 +19,10 @@ const variantStyles = Object.fromEntries(
   Object.entries(tokens.typographyVariants as Record<string, VariantTokens>).map(([variant, style]) => [
     variant,
     {
+      // per-variant family with the global font variable as fallback — lets a
+      // theme give headings their own face (--mui-font-family-h1...) while
+      // body text follows --mui-font-family
+      fontFamily: `var(--mui-font-family-${variant}, ${tokens.typography.fontFamily})`,
       fontWeight: `var(--mui-font-weight-${variant}, ${style.fontWeight})`,
       fontSize: `var(--mui-font-size-${variant}, ${style.fontSize})`,
       lineHeight: `var(--mui-font-lineHeight-${variant}, ${style.lineHeight})`,
