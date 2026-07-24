@@ -43,10 +43,11 @@ export default function Typography(props: TypographyProps) {
   // MUI v9 removed the `paragraph` prop — emulate the v5 behavior instead of
   // letting the flag leak onto the DOM element
   const { paragraph, component, sx, ...other } = props;
+  const resolvedComponent = paragraph ? 'p' : component;
   return (
     <MuiTypography
       {...other}
-      component={paragraph ? 'p' : component}
+      {...(resolvedComponent ? { component: resolvedComponent } : {})}
       sx={paragraph ? { marginBottom: '16px', ...(sx || {}) } : sx}
     >
       {props.children}
