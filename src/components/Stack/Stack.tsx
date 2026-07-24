@@ -34,9 +34,17 @@ export default function Stack(props: StackProps) {
   // MUI v9 removed system props from Stack — alignItems/justifyContent passed
   // as top-level props leak into the DOM as attributes and do nothing, so map
   // them into sx (explicit sx values still win via the later spread)
-  const { alignItems, justifyContent, sx, ...other } = props;
+  const { alignItems, justifyContent, sx, divider, ...other } = props;
+  // MUI clones the divider per gap — it must be an element, so wrap
+  // editor-typed strings/numbers
+  const dividerNode =
+    typeof divider === 'string' || typeof divider === 'number' ? <span>{divider}</span> : divider;
   return (
-    <MuiStack {...other} sx={{ alignItems, justifyContent, ...((sx as object) || {}) }}>
+    <MuiStack
+      {...other}
+      {...(dividerNode ? { divider: dividerNode } : {})}
+      sx={{ alignItems, justifyContent, ...((sx as object) || {}) }}
+    >
       {props.children}
     </MuiStack>
   );

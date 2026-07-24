@@ -25,5 +25,11 @@ export interface FormHelperTextProps {
  * @uxpindescription Helper text displayed under a form input, usually inside a FormControl.
  */
 export default function FormHelperText(props: FormHelperTextProps) {
-  return <MuiFormHelperText {...props}>{props.children}</MuiFormHelperText>;
+  // v9 replaced margin="dense" with size="small" — keep the old control working
+  const { margin, ...other } = props;
+  return (
+    <MuiFormHelperText {...other} {...(margin === 'dense' ? { size: 'small' as const } : {})}>
+      {props.children}
+    </MuiFormHelperText>
+  );
 }

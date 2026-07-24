@@ -54,5 +54,74 @@ export const skipProps = {
 /** Custom candidate values overriding the type-derived ones. */
 export const propValues = {};
 
+/**
+ * Props excluded from the "changes the rendered output" check only (they
+ * still must RENDER cleanly). Every entry documents why no static markup
+ * change is expected — mostly closed popups (no layout/hover in jsdom) and
+ * props whose effect depends on another prop the preset doesn't set.
+ */
+export const effectSkipProps = {
+  Autocomplete: { disableClearable: 'clear button shows only with a value/hover' },
+  Avatar: { alt: 'alt applies to the img; preset renders text children' },
+  BottomNavigation: { value: 'arbitrary value matches no action child' },
+  BottomNavigationAction: { value: 'selection is driven by the parent value' },
+  Breadcrumbs: {
+    itemsAfterCollapse: 'collapse only kicks in past maxItems; preset has 3 crumbs',
+    itemsBeforeCollapse: 'collapse only kicks in past maxItems; preset has 3 crumbs',
+  },
+  CardMedia: { src: 'alias of image; preset sets image which wins' },
+  CircularProgress: { value: 'value applies to the determinate variant; preset is indeterminate' },
+  DatePicker: {
+    disableFuture: 'affects the calendar popup, closed in jsdom',
+    disablePast: 'affects the calendar popup, closed in jsdom',
+  },
+  DateTimePicker: {
+    disableFuture: 'affects the calendar popup, closed in jsdom',
+    disablePast: 'affects the calendar popup, closed in jsdom',
+  },
+  TimePicker: {
+    disableFuture: 'affects the clock popup, closed in jsdom',
+    disablePast: 'affects the clock popup, closed in jsdom',
+  },
+  Drawer: {
+    elevation: 'applies to the temporary variant; preset renders permanent',
+    hideBackdrop: 'backdrop exists only for the open temporary variant',
+  },
+  FormControlLabel: { value: 'form value only — no visual representation' },
+  InputAdornment: { disableTypography: 'wraps STRING children; preset uses an element' },
+  LinearProgress: {
+    value: 'applies to determinate/buffer; preset is indeterminate',
+    valueBuffer: 'applies to the buffer variant; preset is indeterminate',
+  },
+  Masonry: { sequential: 'layout computed via ResizeObserver — mocked in jsdom', spacing: 'ditto' },
+  Menu: {
+    anchorEl: 'menu is closed in jsdom (no live anchor)',
+    sx: 'menu is closed — nothing rendered to style',
+    variant: 'menu is closed — nothing rendered',
+  },
+  MenuList: {
+    disableListWrap: 'keyboard navigation behavior only',
+    disabledItemsFocusable: 'focus behavior only',
+  },
+  Select: {
+    autoWidth: 'affects the dropdown menu, closed in jsdom',
+    displayEmpty: 'visible only with an empty value; preset has one',
+  },
+  Slide: { direction: 'transform exists only mid-transition; end state is identical' },
+  SparkLineChart: {
+    color: 'preset already uses the same primary token as the sample',
+    showHighlight: 'highlight renders on pointer interaction',
+    showTooltip: 'tooltip renders on pointer interaction',
+  },
+  SpeedDialAction: { tooltipPlacement: 'tooltip is closed until hover' },
+  Tab: { value: 'selection is driven by the parent Tabs value' },
+  TextField: { maxRows: 'applies to multiline; preset is single-line' },
+  ToggleButtonGroup: { exclusive: 'selection semantics only, same markup' },
+  Tooltip: {
+    arrow: 'popup is closed until hover',
+    placement: 'popup is closed until hover',
+  },
+};
+
 /** Components excluded entirely, with reasons. Should stay empty. */
 export const skipComponents = {};

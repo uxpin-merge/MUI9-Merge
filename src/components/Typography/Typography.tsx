@@ -42,13 +42,20 @@ export interface TypographyProps {
 export default function Typography(props: TypographyProps) {
   // MUI v9 removed the `paragraph` prop — emulate the v5 behavior instead of
   // letting the flag leak onto the DOM element
-  const { paragraph, component, sx, ...other } = props;
+  const { paragraph, component, color, sx, ...other } = props;
   const resolvedComponent = paragraph ? 'p' : component;
+  // v9 removed Typography's color system prop — route it through sx (sx
+  // resolves theme token paths like 'primary.main' and var() references)
+  const mergedSx = {
+    ...(color ? { color } : {}),
+    ...(paragraph ? { marginBottom: '16px' } : {}),
+    ...((sx as object) || {}),
+  };
   return (
     <MuiTypography
       {...other}
       {...(resolvedComponent ? { component: resolvedComponent } : {})}
-      sx={paragraph ? { marginBottom: '16px', ...(sx || {}) } : sx}
+      {...(Object.keys(mergedSx).length ? { sx: mergedSx } : {})}
     >
       {props.children}
     </MuiTypography>
