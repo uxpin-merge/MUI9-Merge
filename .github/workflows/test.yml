@@ -22,5 +22,11 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Prop-render test suite
+      # themes.js is GENERATED from tokens.json (and feeds the AI prompt
+      # defaults) — a dirty diff means someone changed tokens without
+      # regenerating
+      - name: Theme generator in sync
+        run: npm run generate:themes && git diff --exit-code themes.js
+
+      - name: Test suites
         run: npm test -- --ci
