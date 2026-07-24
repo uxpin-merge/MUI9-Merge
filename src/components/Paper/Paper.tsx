@@ -19,5 +19,11 @@ export interface PaperProps {
  * @uxpindescription A surface to display content with optional elevation shadow.
  */
 export default function Paper(props: PaperProps) {
-  return <MuiPaper {...props}>{props.children}</MuiPaper>;
+  // elevation only applies to variant="elevation" — MUI warns otherwise
+  const { variant, elevation, ...other } = props;
+  return (
+    <MuiPaper {...other} variant={variant} elevation={variant === 'outlined' ? undefined : elevation}>
+      {props.children}
+    </MuiPaper>
+  );
 }

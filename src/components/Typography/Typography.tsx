@@ -40,5 +40,16 @@ export interface TypographyProps {
  * @uxpindescription Use typography to present your design and content as clearly and efficiently as possible.
  */
 export default function Typography(props: TypographyProps) {
-  return <MuiTypography {...props}>{props.children}</MuiTypography>;
+  // MUI v9 removed the `paragraph` prop — emulate the v5 behavior instead of
+  // letting the flag leak onto the DOM element
+  const { paragraph, component, sx, ...other } = props;
+  return (
+    <MuiTypography
+      {...other}
+      component={paragraph ? 'p' : component}
+      sx={paragraph ? { marginBottom: '16px', ...(sx || {}) } : sx}
+    >
+      {props.children}
+    </MuiTypography>
+  );
 }

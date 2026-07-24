@@ -30,5 +30,17 @@ export interface GridProps {
  * @uxpindescription Responsive 12-column layout grid (MUI v9 API: use container + size, not item/xs).
  */
 export default function Grid(props: GridProps) {
-  return <MuiGrid {...props}>{props.children}</MuiGrid>;
+  // spacing/columns are container-only — passing them on an item makes MUI
+  // warn; drop them silently so toggling `container` in the editor is safe
+  const { container, spacing, columns, ...other } = props;
+  return (
+    <MuiGrid
+      {...other}
+      container={container}
+      spacing={container ? spacing : undefined}
+      columns={container ? columns : undefined}
+    >
+      {props.children}
+    </MuiGrid>
+  );
 }

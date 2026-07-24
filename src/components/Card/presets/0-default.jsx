@@ -3,7 +3,6 @@ import Card from '../Card';
 import CardHeader from '../../CardHeader/CardHeader';
 import CardMedia from '../../CardMedia/CardMedia';
 import CardContent from '../../CardContent/CardContent';
-import CardActionArea from '../../CardActionArea/CardActionArea';
 import CardActions from '../../CardActions/CardActions';
 import Typography from '../../Typography/Typography';
 import Button from '../../Button/Button';
@@ -38,12 +37,10 @@ export default (
         designs.
       </Typography>
     </CardContent>
-    <CardActionArea uxpId="card-action-area-1">
-      <CardActions uxpId="card-actions-1">
-        <Button uxpId="card-actions-button-1" size="small" color="primary" variant="outlined">
-          Share
-        </Button>
-      </CardActions>
-    </CardActionArea>
+    <CardActions uxpId="card-actions-1">
+      <Button uxpId="card-actions-button-1" size="small" color="primary" variant="outlined">
+        Share
+      </Button>
+    </CardActions>
   </Card>
 );

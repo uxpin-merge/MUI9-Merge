@@ -19,5 +19,16 @@ export interface LinearProgressProps {
  * @uxpindescription Progress indicators express an unspecified wait time or display the length of a process.
  */
 export default function LinearProgress(props: LinearProgressProps) {
-  return <MuiLinearProgress {...props} />;
+  // determinate/buffer variants require value/valueBuffer — default them so
+  // switching the variant in the editor never warns before values are set
+  const { variant, value, valueBuffer, ...other } = props;
+  const needsValue = variant === 'determinate' || variant === 'buffer';
+  return (
+    <MuiLinearProgress
+      {...other}
+      variant={variant}
+      value={value ?? (needsValue ? 50 : undefined)}
+      valueBuffer={valueBuffer ?? (variant === 'buffer' ? 75 : undefined)}
+    />
+  );
 }

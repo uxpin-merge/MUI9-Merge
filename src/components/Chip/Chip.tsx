@@ -1,5 +1,7 @@
 import * as React from 'react';
 import MuiChip from '@mui/material/Chip';
+import MuiAvatar from '@mui/material/Avatar';
+import MuiIcon from '@mui/material/Icon';
 
 export interface ChipProps {
   /** The content of the component. */
@@ -32,11 +34,16 @@ export interface ChipProps {
  */
 export default function Chip(props: ChipProps) {
   const { avatar, icon, ...other } = props;
+  // MUI requires single ReactElements here — coerce editor-friendly strings
+  // (avatar text / Material Icons ligature name) instead of warning
+  const avatarNode =
+    typeof avatar === 'string' || typeof avatar === 'number' ? <MuiAvatar>{avatar}</MuiAvatar> : avatar;
+  const iconNode = typeof icon === 'string' || typeof icon === 'number' ? <MuiIcon>{icon}</MuiIcon> : icon;
   return (
     <MuiChip
       {...other}
-      avatar={avatar as React.ReactElement | undefined}
-      icon={icon as React.ReactElement | undefined}
+      avatar={avatarNode as React.ReactElement | undefined}
+      icon={iconNode as React.ReactElement | undefined}
     />
   );
 }

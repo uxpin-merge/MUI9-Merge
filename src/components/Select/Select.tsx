@@ -48,5 +48,13 @@ export interface SelectProps {
  * @uxpindescription Select components are used for collecting user provided information from a list of options.
  */
 export default function Select(props: SelectProps) {
-  return <MuiSelect<string | string[]> {...props}>{props.children}</MuiSelect>;
+  // multiple demands an array value — coerce scalars so toggling `multiple`
+  // in the editor never crashes MUI
+  const { multiple, value, ...other } = props;
+  const coercedValue = multiple && !Array.isArray(value) ? (value == null || value === '' ? [] : [value]) : value;
+  return (
+    <MuiSelect<string | string[]> {...other} multiple={multiple} value={coercedValue}>
+      {props.children}
+    </MuiSelect>
+  );
 }

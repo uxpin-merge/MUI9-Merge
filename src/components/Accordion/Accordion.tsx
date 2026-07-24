@@ -32,5 +32,11 @@ export interface AccordionProps {
  * @uxpindescription An accordion is a lightweight container that may either be used standalone, or be connected to a larger surface, such as a card.
  */
 export default function Accordion(props: AccordionProps) {
-  return <MuiAccordion {...props}>{props.children ?? []}</MuiAccordion>;
+  // elevation only applies to variant="elevation" — MUI warns otherwise
+  const { variant, elevation, ...other } = props;
+  return (
+    <MuiAccordion {...other} variant={variant} elevation={variant === 'outlined' ? undefined : elevation}>
+      {props.children ?? []}
+    </MuiAccordion>
+  );
 }
