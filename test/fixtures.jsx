@@ -123,5 +123,15 @@ export const effectSkipProps = {
   },
 };
 
+/**
+ * Props excluded from the controlled-update check (render A -> rerender B
+ * must equal a fresh render of B). Reserved for transition-like props whose
+ * mid-animation markup legitimately differs from a settled fresh render.
+ */
+export const updateSkipProps = {
+  Accordion: { expanded: 'Collapse leaves imperative height residue after exit; visual state identical' },
+  Collapse: { in: 'imperative height residue after exit; visual state identical' },
+};
+
 /** Components excluded entirely, with reasons. Should stay empty. */
 export const skipComponents = {};

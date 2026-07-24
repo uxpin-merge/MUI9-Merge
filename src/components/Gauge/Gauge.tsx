@@ -8,6 +8,8 @@ export interface GaugeProps {
   valueMin?: number;
   /** The maximal value of the gauge. */
   valueMax?: number;
+  /** If true, the value arc renders without animation (like the other charts). */
+  skipAnimation?: boolean;
   /** The start angle in degrees. */
   startAngle?: number;
   /** The end angle in degrees. */
