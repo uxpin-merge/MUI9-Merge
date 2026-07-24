@@ -133,5 +133,24 @@ export const updateSkipProps = {
   Collapse: { in: 'imperative height residue after exit; visual state identical' },
 };
 
+/**
+ * Handler props excluded from the interaction smoke suite, with reasons —
+ * cases where the generic trigger cannot reach the real interaction in
+ * jsdom (closed popups, portalled targets, complex gestures).
+ */
+export const interactionSkips = {
+  Autocomplete: { onChange: 'fires on option selection in the portalled listbox — needs real layout' },
+  DatePicker: { onChange: 'fires on typing a valid date into the section fields — not generically scriptable' },
+  DateTimePicker: { onChange: 'same as DatePicker' },
+  TimePicker: { onChange: 'same as DatePicker' },
+  Drawer: { onClose: 'preset renders the permanent variant — no close semantics' },
+  Menu: { onClose: 'menu is closed in jsdom (no live anchor to open it)' },
+  Select: {
+    onChange: 'fires on option selection in the portalled menu — needs real layout',
+    onClose: 'menu never opens in jsdom',
+  },
+  SpeedDial: { onClose: 'close is hover/blur-driven' },
+};
+
 /** Components excluded entirely, with reasons. Should stay empty. */
 export const skipComponents = {};
